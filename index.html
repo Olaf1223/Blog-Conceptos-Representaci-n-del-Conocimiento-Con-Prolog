@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formas de Representación del Conocimiento en Prolog - Tema Morado</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Nuevos colores morados/púrpuras */
+            --color-principal: #6c5ce7; /* Morado profundo para acento principal */
+            --color-secundario: #a29bfe; /* Lila más claro para detalles */
+            --color-texto-oscuro: #2c3e50;
+            --color-texto-claro: #ecf0f1;
+            --fondo-claro: #fcfaff; /* Fondo muy ligeramente púrpura */
+            --fondo-tarjeta: #ffffff;
+            --sombra-sutil: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --sombra-hover: 0 6px 18px rgba(0, 0, 0, 0.15);
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--fondo-claro);
+            color: var(--color-texto-oscuro);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            transition: background-color 0.3s ease;
+        }
+
+        header {
+            /* Degradado de morado a lila */
+            background: linear-gradient(135deg, #4834d4, var(--color-principal));
+            color: var(--color-texto-claro);
+            padding: 3rem 2rem;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            letter-spacing: 1px;
+            color: var(--color-texto-claro);
+        }
+
+        header p {
+            font-weight: 300;
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .contenedor {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        h2, h3 {
+            color: var(--color-principal);
+            font-family: 'Playfair Display', serif;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid var(--color-secundario);
+            padding-bottom: 0.3rem;
+        }
+
+        .tarjeta {
+            background-color: var(--fondo-tarjeta);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--sombra-sutil);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            /* Borde izquierdo morado */
+            border-left: 5px solid var(--color-principal); 
+        }
+
+        .tarjeta:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--sombra-hover);
+        }
+
+        .tarjeta h2 {
+            margin-top: 0;
+            border-bottom: none;
+            color: #4834d4; /* Tono más oscuro de morado */
+            font-size: 1.5rem;
+        }
+
+        .tarjeta p strong {
+            display: inline-block;
+            margin-top: 0.5rem;
+            padding: 0.5rem 1rem;
+            background-color: #f3f0ff; /* Fondo muy claro para código (lila claro) */
+            color: #4834d4; /* Morado vibrante para código */
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 1.05rem;
+            white-space: pre-wrap;
+            word-break: break-all;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        ul {
+            padding-left: 25px;
+            list-style-type: '💜 '; /* Emoji de acento morado */
+        }
+
+        .tabla-resumen {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-top: 1.5rem;
+            box-shadow: var(--sombra-sutil);
+            overflow: hidden;
+            border-radius: 8px;
+        }
+
+        .tabla-resumen th, .tabla-resumen td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .tabla-resumen th {
+            background-color: var(--color-principal); /* Encabezado de tabla morado */
+            color: var(--color-texto-claro);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .tabla-resumen tr:nth-child(even) {
+            background-color: #f8f6ff; /* Alternancia con lila muy suave */
+        }
+
+        .tabla-resumen tr:hover {
+            background-color: #eee9ff;
+        }
+
+        .tabla-resumen tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Estilo para el código dentro de la tabla */
+        .tabla-resumen code {
+            font-family: monospace;
+            color: #c0392b; /* Rojo para código dentro de tabla (para contraste) */
+            background-color: #fff0f0;
+            padding: 3px 6px;
+            border-radius: 4px;
+        }
+
+        footer {
+            background-color: #4834d4; /* Morado oscuro para el pie de página */
+            color: var(--color-texto-claro);
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 3rem;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .contenedor {
+                padding: 0 1rem;
+            }
+            h1 {
+                font-size: 2rem;
+            }
+            .tabla-resumen, .tarjeta {
+                border-radius: 8px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Formas de Representación del Conocimiento en Prolog</h1>
+        <p>Explorando cómo la lógica se convierte en conocimiento en la programación declarativa.</p>
+    </header>
+
+
+    <div class="contenedor">
+        <p>En Prolog, el conocimiento se representa de forma **declarativa**, describiendo lo que **es cierto** y no cómo obtenerlo (la inferencia se encarga el motor de Prolog). A continuación, se presentan las principales formas de representación del conocimiento:</p>
+
+        <section class="grid-conocimiento">
+            <div class="tarjeta">
+                <h2>1. Hechos (Facts) 📚</h2>
+                <p>Representan información **atómica** que se considera verdadera en el mundo modelado.</p>
+                <p><strong>gato(tom).</strong></p>
+                <p><strong>padre(juan, ana).</strong></p>
+            </div>
+
+            <div class="tarjeta">
+                <h2>2. Reglas (Rules) 🧩</h2>
+                <p>Describen relaciones **condicionales** entre hechos o condiciones que deben cumplirse.</p>
+                <p><strong>mamifero(X) :- animal(X), tiene_sangre_caliente(X).</strong></p>
+            </div>
+
+            <div class="tarjeta">
+                <h2>3. Consultas (Queries) ❓</h2>
+                <p>Permiten **preguntar** al sistema si algo es cierto o qué valores cumplen ciertas condiciones (la interacción del usuario).</p>
+                <p><strong>?- gato(tom).</strong></p>
+                <p><strong>?- padre(juan, Hijo).</strong></p>
+            </div>
+
+            <div class="tarjeta">
+                <h2>4. Estructuras (Terms) 🏗️</h2>
+                <p>Permiten representar **objetos complejos** con un functor y varios argumentos (atributos).</p>
+                <p><strong>persona(nombre(ana), edad(25), profesion(ingeniera)).</strong></p>
+            </div>
+
+            <div class="tarjeta">
+                <h2>5. Listas (Lists) 🔗</h2>
+                <p>Un tipo especial de estructura usada para representar **colecciones** o secuencias de datos, con una Cabeza y una Cola.</p>
+                <p><strong>[rojo, verde, azul]</strong></p>
+                <p><strong>[Cabeza|Cola]</strong></p>
+            </div>
+
+            <div class="tarjeta">
+                <h2>6. Reglas Recursivas 🔄</h2>
+                <p>Definen relaciones que se refieren a sí mismas, esenciales para modelar estructuras de **longitud variable** como árboles, jerarquías o secuencias.</p>
+                <p><strong>ancestro(X, Y) :- padre(X, Z), ancestro(Z, Y).</strong></p>
+            </div>
+
+            <div class="tarjeta">
+                <h2>7. Relaciones (Grafos/Conexiones) 🌐</h2>
+                <p>Modelan explícitamente **conexiones** entre entidades, como rutas en un mapa o jerarquías.</p>
+                <p><strong>conectado(ciudad_a, ciudad_b).</strong></p>
+            </div>
+
+            <div class="tarjeta">
+                <h2>8. Metaconocimiento (Meta-programming) 🧠</h2>
+                <p>Representa conocimiento sobre el propio conocimiento, permitiendo razonar sobre **reglas y hechos** (ej. *clause*, *assert*, *retract*).</p>
+                <p><strong>es_hecho(X) :- clause(X, true).</strong></p>
+            </div>
+        </section>
+
+        <h2>📝 Resumen de Componentes Clave</h2>
+        <table class="tabla-resumen">
+            <thead>
+                <tr>
+                    <th>Tipo</th>
+                    <th>Descripción</th>
+                    <th>Ejemplo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Hechos</td>
+                    <td>Información verdadera directamente. Base del conocimiento.</td>
+                    <td><code>gato(tom).</code></td>
+                </tr>
+                <tr>
+                    <td>Reglas</td>
+                    <td>Conocimiento derivado o condicional (Implicación: Cabeza :- Cuerpo).</td>
+                    <td><code>mamifero(X) :- animal(X), sangre_caliente(X).</code></td>
+                </tr>
+                <tr>
+                    <td>Listas</td>
+                    <td>Colecciones ordenadas de datos.</td>
+                    <td><code>[a, b, c]</code></td>
+                </tr>
+                <tr>
+                    <td>Estructuras</td>
+                    <td>Objetos complejos (functor/argumentos).</td>
+                    <td><code>persona(juan, 25, medico)</code></td>
+                </tr>
+                <tr>
+                    <td>Reglas recursivas</td>
+                    <td>Relaciones que se auto-referencian.</td>
+                    <td><code>ancestro(X, Y)</code></td>
+                </tr>
+                <tr>
+                    <td>Metaconocimiento</td>
+                    <td>Razonamiento sobre la estructura del programa.</td>
+                    <td><code>es_hecho(X)</code></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <footer>
+        <p>© Todos los derechos reservados</p>
+    </footer>
+</body>
+</html>
